@@ -2,7 +2,7 @@
 
 This is a component of a larger project to create a robust outlier detection algorithm for fixed-income transactions in FINRAS's Trade Reporting and Compliance Engine (TRACE). This survey was created to have professional financiers / researchers classify anomalies in time series data in order to have test data upon which to optimize our algorithms paramaters. 
 
-This version of the survey is from it's early stages, prior to connecting to a PostgresSQL database. You can preview it [here](https://trace-survey.herokuapp.com/). 
+This version of the survey is from it's early stages, prior to connecting to a PostgresSQL database. 
 
 ## Comments
 
