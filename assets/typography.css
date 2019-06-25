@@ -1,5 +1,5 @@
 h1, h2, h3, h4, h5, h6 {
-    color: black
+    color: black;
 }
 
 div {
@@ -17,6 +17,10 @@ div {
    body {
     height: 100%;
     position: relative;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: visible;
+ 
    }
    .main-container {
     min-height: 100vh; /* will cover the 100% of viewport */
@@ -26,7 +30,6 @@ div {
     padding-bottom: 100px; /* height of your footer */
    }
    footer {
-    position: absolute;
     background-image: none;
     background-repeat: repeat;
     background-attachment: scroll;
@@ -35,4 +38,26 @@ div {
     bottom: 0pt;
     left: 0pt;
     width: 100%;
-   }
+}
+
+.rc-slider-track {
+    background-color: #6c1420;
+  }
+  
+  .rc-slider-dot-active {  
+    border-color: #6c1420;
+    border: solid 2px #6c1420;
+  }
+  
+  .rc-slider-handle {
+    background-color: #6c1420;
+    border-color: #6c1420;
+  }
+  
+  .rc.slider-handle:hover {
+    border-color: #6c1420;
+  }
+  
+  .rc.slider-handle-active:active {
+    border-color: #6c1420;
+  }
