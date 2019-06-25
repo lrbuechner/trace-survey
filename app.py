@@ -409,11 +409,11 @@ def data_handler(clicks, child, hidden, codex, dump, name, organization, pro_exp
         new_inds = json.loads(codex)['inds']      
 
         connection = psycopg2.connect(
-            user="ojbgjqmyqdpzkf",
-            password="d4001165d169a3add23e7c8d2ba4fed7db708838fca1a94977eb6977de68f894",
-            host="ec2-54-83-33-14.compute-1.amazonaws.com",
-            port="5432",
-            database="d1khr7vbop54p0"
+            #user="xxx",
+            #password="xxx",
+            #host=xxx",
+            #port="xxx",
+            #database="xxx"
         )
         cursor = connection.cursor()
         update_statement = """ 
@@ -465,11 +465,11 @@ def create_user(clicks, name, organization, pro_exp, bond_exp):
             'organization': organization,
         }
         connection = psycopg2.connect(
-            user="ojbgjqmyqdpzkf",
-            password="d4001165d169a3add23e7c8d2ba4fed7db708838fca1a94977eb6977de68f894",
-            host="ec2-54-83-33-14.compute-1.amazonaws.com",
-            port="5432",
-            database="d1khr7vbop54p0"
+            #user="xxx",
+            #password="xxx",
+            #host="xxx",
+            #port="xxx",
+            #database="xxx"
         )
         cursor = connection.cursor()
         indicies = []
