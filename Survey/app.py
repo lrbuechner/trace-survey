@@ -25,11 +25,11 @@ server = app.server
 
 # database connection 
 connection = psycopg2.connect(
-            user="hphboxcxrormod",
-            password="72d6ccd403e34ec5b768d4b90ee96efa518fe1eb3e753dc40d0d3c91b1434c30",
-            host="ec2-54-243-208-234.compute-1.amazonaws.com",
-            port="5432",
-            database="dfaeo3ifekkdtc"
+            user="---",
+            password="---",
+            host="---",
+            port="---",
+            database="---"
 )
 cursor = connection.cursor()
 
