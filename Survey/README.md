@@ -4,11 +4,6 @@ This is a component of a larger project to create a robust outlier detection alg
 
 You can try it out [here](https://trace-survey.herokuapp.com/).
 
-## IMPORTANT
-
-There is a csv hosted on heroku that is read with pandas upon session creation 
-The final stage of the project is to use SQL to query each CUSIP at a time from a parent database in the cloud, instead of loading it all at once. I originally just used a csv for prototyping. This final phase is almost complete. 
-
 ## Directions
 Use the selection tools provided on the scatter plot to select multiple points. Without holding shift during your selection, your previous selection will be forgotten. By holding shift and either clicking/lassoing points, you can select multiple points. 
 
