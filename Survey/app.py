@@ -25,11 +25,11 @@ server = app.server
 
 # database connection 
 connection = psycopg2.connect(
-            user="ojbgjqmyqdpzkf",
-            password="d4001165d169a3add23e7c8d2ba4fed7db708838fca1a94977eb6977de68f894",
-            host="ec2-54-83-33-14.compute-1.amazonaws.com",
+            user="hphboxcxrormod",
+            password="72d6ccd403e34ec5b768d4b90ee96efa518fe1eb3e753dc40d0d3c91b1434c30",
+            host="ec2-54-243-208-234.compute-1.amazonaws.com",
             port="5432",
-            database="d1khr7vbop54p0"
+            database="dfaeo3ifekkdtc"
 )
 cursor = connection.cursor()
 
@@ -118,6 +118,8 @@ app.layout = html.Div([
         
         # SURVEY TAB
         dcc.Tab(id = 'tutorial-tab', label = 'Tutorial', value = 'tutorial-tab', disabled = True, children = [
+
+            html.H6('Selection Options: Clicking or lasso tools. Regardless of selection method, you must hold shift to select more than 1 transaction\nClick "Confirm Selection" to proceed to next bond.',style={'textAlign':'center',"display": "block","margin-left":'5vw',"margin-right":'5vw', 'padding-right': 120}),
             
             html.Div([
                 #html.Div([html.Iframe(src="https://www.youtube.com/embed/iWZdz9_Ls_w", width =  1189/2, height = 669/2)]),
@@ -125,8 +127,14 @@ app.layout = html.Div([
                     <iframe width="1280" height="720" src="https://www.youtube.com/embed/f7Zik6F6uCs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 '''),
                 html.Button('Complete Tutorial', id = 'survey-button', style = {'font-size': '100%'}, n_clicks = 0)
-            ],  style={'textAlign':'center',"display": "block","margin-left":'5vw',"margin-right":'5vw', 'padding-right': 120})
-        ]),
+            ],  style={'textAlign':'center',"display": "block","margin-left":'5vw',"margin-right":'5vw', 'padding-right': 120}),
+
+            html.H6('Note that it takes around 1-5 seconds to query each time series data from our database, this will be optimized before the survey goes live. \
+                Lastly, the above video is a place holder for a quick video tutorial which will \
+                demonstrate how to ensure quality of selection',
+                style={'textAlign':'center',"display": "block","margin-left":'5vw',"margin-right":'5vw', 'padding-right': 120})
+            ]),
+            
 
         # Tab 2 - The Actual Survey, might make this the 3rd tab and add an additional tab that includes a basic tutorial / motivation for this survey
         dcc.Tab(id = 'tab2', label = 'Survey', value ='tab2', disabled=True , children = [
@@ -372,7 +380,6 @@ def update_table(selected_data, conf_button, tab, hidden, current, prev_inds):
                 curve_sell = fig_data[(fig_data['curveNumber'] == 1) & ((fig_data['pointNumber']).isin(_S_) == False)]
                 curve_D = fig_data[(fig_data['curveNumber'] == 2) & ((fig_data['pointNumber']).isin(_D_) == False)]
 
-                        
                 if max(list(curve_buy['pointNumber'])+[-1]) < len(buy) and \
                     max(list(curve_sell['pointNumber'])+[-1]) < len(sell) and \
                     max(list(curve_D['pointNumber'])+[-1]) < len(D):
