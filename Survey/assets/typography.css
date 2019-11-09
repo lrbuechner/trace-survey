@@ -38,7 +38,16 @@ div {
     bottom: 0pt;
     left: 0pt;
     width: 100%;
-}
+   }
+
+    
+
+  .dash-table-container .previous-next-container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  float: none !important; 
+  }
 
 .rc-slider-track {
     background-color: #6c1420;
@@ -61,3 +70,5 @@ div {
   .rc.slider-handle-active:active {
     border-color: #6c1420;
   }
+
+  
