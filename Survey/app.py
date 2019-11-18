@@ -24,11 +24,11 @@ server = app.server
 
 # database connection 
 connection = psycopg2.connect(
-            user="user",
-            password="password",
-            host="granny",
-            port="able",
-            database="data"
+            user="----",
+            password="----",
+            host="----",
+            port="----",
+            database="----",
 )
 cursor = connection.cursor()
 
@@ -136,23 +136,6 @@ app.layout = html.Div([
                     'modeBarButtonsToRemove': ['toImage', 'zoomIn2d', 'zoomOut2d', 'select2d', 'autoScale2d',
                     'autoScale2d', 'toggleSpikelines', 'hoverClosestCartesian', 'hoverCompareCartesian']}
                 ),
-
-                html.Div([dcc.Checklist(
-                    id = 'order-type',
-                    options=[
-                        {'label': 'Buy', 'value': 'B'},
-                        {'label': 'Sell', 'value': 'S'},
-                        {'label': 'Inter-Dealer', 'value': 'D'}
-                    ],
-                    value=['B', 'S', 'D'],
-                    labelStyle={'display': 'inline-block'},
-                    style = {
-                        'textAlign': 'center',
-                        "display": "block",
-                        "margin-left": "auto",
-                        "margin-right": "auto",
-                        'padding-bottom':5})
-                ]),
                 
                 html.Div([
                     html.Div([
@@ -235,8 +218,7 @@ def prepare_data(bond):
 
 def order_type_handler(ot):
     # ['b','s']
-    names = ['Dealer Buy', 'Dealer Sell', 'Inter-Dealer']
-    colors = ['rgb(30, 201, 0)', 'rgb(229, 0, 0)','rgb(18, 117, 199)']
+    
 
     nams = [] ; cols = []
     for t in ot:
@@ -254,10 +236,11 @@ def order_type_handler(ot):
 # callbacks for scatter plot interaction and data selection 
 @app.callback(
     Output('indicator-graphic', 'figure'),
-    [Input('order-type', 'value'),
-    Input('indicator-graphic', 'config'),
-    Input('confirm-button','n_clicks')])
-def update_graph(order_type, config, conf_button):
+    [Input('indicator-graphic', 'config'),
+    Input('confirm-button','n_clicks')],
+    [State('name','value'),
+    State('organization','value'),])
+def update_graph(config, conf_button, name, organization):
     
     # control flow for end of survey
     if conf_button < len(unique_cusips):
@@ -276,11 +259,22 @@ def update_graph(order_type, config, conf_button):
         bond = pd.read_sql_query(query, connection)
         # making necesary type conversions
         prepare_data(bond)
+
+        # recording who has seen which cusip
+
+        update_statement = """ 
+        UPDATE survey_data
+        SET seen = array_cat(seen, %s) 
+        WHERE username = %s and organization = %s """
+        
+        record_to_update = ([cusip_id], name, organization)
+        cursor.execute(update_statement, record_to_update)
+        connection.commit()
          
         # dealing with differnt types of bond order types for radio button customization
-        type_info = order_type_handler(order_type)
-        names = type_info[0]
-        colors = type_info[1]
+        order_type = ['B', 'S', 'D']
+        names = ['Dealer Buy', 'Dealer Sell', 'Inter-Dealer']
+        colors = ['rgb(30, 201, 0)', 'rgb(229, 0, 0)','rgb(18, 117, 199)']
 
         return {
             'data': [go.Scattergl(
@@ -299,7 +293,7 @@ def update_graph(order_type, config, conf_button):
                     title='TRACE Outlier Classification | Completed: {}'.format(click_tracker),
                     margin={'l': 50, 'b': 50, 't': 80, 'r': 80},
                     # note the +- 5 is to handle with prices near 0
-                    yaxis={'title':'Prices', 'range': [bond['rptd_pr'].min()*.75-5, bond['rptd_pr'].max()*1.25+5]},
+                    yaxis={'title':'Prices', 'range': [bond['rptd_pr'].min()*.9-5, bond['rptd_pr'].max()*1.1+5]},
                     legend={'x': 1, 'y': 1},
                     hovermode='closest',
                     clickmode = 'event+select'
@@ -425,8 +419,7 @@ def update_table(selected_data, conf_button, tab, hidden, current, prev_inds):
     [Output('indicator-graphic','selectedData'),
     Output('hidden','children'),
     Output('dump','children'),
-    Output('formatted','children'),
-    Output('order-type','value')],
+    Output('formatted','children')],
     [Input('confirm-button','n_clicks'),
     Input('finish-surv','submit_n_clicks')
     ],
@@ -477,9 +470,9 @@ def data_handler(clicks, yeet, child, hidden, codex, dump, name, organization, p
         B = B1 + B2
         S = S1 + S2 
         D = D1 + D2
-        return [{"points": []}, json.dumps({'buy': B, 'sell': S, 'D': D}), json.dumps({'inds': _Codex_}, default=default), '{}', ['B', 'S', 'D']]
+        return [{"points": []}, json.dumps({'buy': B, 'sell': S, 'D': D}), json.dumps({'inds': _Codex_}, default=default), '{}']
     else:
-        return [{"points": []}, json.dumps({'buy': [], 'sell': [], 'D': []}), json.dumps({'inds': _Codex_}, default=default), '{}', ['B', 'S', 'D']]
+        return [{"points": []}, json.dumps({'buy': [], 'sell': [], 'D': []}), json.dumps({'inds': _Codex_}, default=default), '{}']
 
 # user information 
 @app.callback(
